@@ -1,3 +1,28 @@
+# Build the REST APIs for a E-commerce Websitee
+
+- Website has products, users
+- Products Have different attributes: name, description, categories, variants, sizes
+- User have Attributes like, first name, last name, email
+- Admin Special users with certain privileges (optional) (in user model create a flag like below)
+```sh
+ isAdmin: false
+```
+## Products:
+ - CRUD Operation for products
+
+## Users:
+ - Sign up a new user (username, password, first name, last name, email) same as making a post request
+ - Sign in user with username/password (optional, and focus on it later)
+
+ ## Cart
+  - Add To cart
+  - Remove from cart (optional)
+
+## Admin (optional)
+  - If you are planning to do admin, then only allow admin to update, delete and create product.
+
+
+===============end of requirements========================
 # TypeScript MEN (MongoDB, ExpressJS, NodeJS) boilerplate
 This boilerplate is based on the [TypeScript Node Starter](https://github.com/microsoft/TypeScript-Node-Starter) whose documentation is below, with some modifications
 
