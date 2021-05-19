@@ -3,7 +3,8 @@ import compression from 'compression'
 import lusca from 'lusca'
 import dotenv from 'dotenv'
 
-import movieRouter from './routers/movie'
+import garmetRouter from './routers/garmet'
+import userRouter from './routers/user'
 import apiErrorHandler from './middlewares/apiErrorHandler'
 
 dotenv.config({ path: '.env' })
@@ -20,7 +21,10 @@ app.use(lusca.xframe('SAMEORIGIN'))
 app.use(lusca.xssProtection(true))
 
 // Use movie router
-app.use('/api/v1/movies', movieRouter)
+app.use('/api/v1/garmets', garmetRouter)
+
+// Use User router
+app.use('/api/v1/users', userRouter)
 
 // Custom API error handler
 app.use(apiErrorHandler)

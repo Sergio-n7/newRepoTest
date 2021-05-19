@@ -1,15 +1,14 @@
+/* eslint-disable @typescript-eslint/member-delimiter-style */
 import mongoose, { Document } from 'mongoose'
-import { TRUE } from 'node-sass'
 
 export type AllGarmets = Document & {
-  name: string;
-  genres: string;
-  category: string;
-  brand: string;
-  size: string;
-  season: string;
-  collection: number;
-  ref: number;
+  name: string
+  genres: string
+  category: string
+  brand: string
+  size: string
+  season: string
+  garmetRef: number
 }
 
 const garmetSchema = new mongoose.Schema({
@@ -34,10 +33,11 @@ const garmetSchema = new mongoose.Schema({
     required: true,
   },
   season: String,
-  collection: Number,
-  ref: {
+  garmetRef: {
     type: Number,
     required: true,
     index: true,
   },
 })
+
+export default mongoose.model<AllGarmets>('Garmets', garmetSchema)

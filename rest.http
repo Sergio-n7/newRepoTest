@@ -1,19 +1,28 @@
-POST http://localhost:3000/api/v1/movies HTTP/1.1
+POST http://localhost:3000/api/v1/garmets HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Lord of the ring",
-    "publishedYear": 2012,
-    "duration": 12
+    "name": "Cotton T-shirt",
+    "genres": "Male",
+    "category": "T-Shirt",
+    "brand": "Diesel",
+    "size": "M",
+    "season": "Summer",
+    "ref": 1
 }
 
 ###
 
-GET http://localhost:3000/api/v1/movies HTTP/1.1
+GET http://localhost:3000/api/v1/garmets HTTP/1.1
 content-type: application/application/json
 
 
 ###
 
-DELETE http://localhost:3000/api/v1/movies/id HTTP/1.1
+DELETE http://localhost:3000/api/v1/garmets/id HTTP/1.1
+content-type: application/application/json
+
+###
+
+PUT http://localhost:3000/api/v1/garmets/id HTTP/1.1
 content-type: application/application/json
