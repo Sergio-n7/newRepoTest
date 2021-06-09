@@ -8,7 +8,7 @@ content-type: application/json
     "brand": "Diesel",
     "size": "M",
     "season": "Summer",
-    "ref": 1
+    "garmetRef": 1
 }
 
 ###
@@ -19,7 +19,7 @@ content-type: application/application/json
 
 ###
 
-DELETE http://localhost:3000/api/v1/garmets/id HTTP/1.1
+DELETE http://localhost:3000/api/v1/garmets/60a52618a2e17367699063de HTTP/1.1
 content-type: application/application/json
 
 ###

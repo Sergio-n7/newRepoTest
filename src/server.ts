@@ -6,7 +6,7 @@ import { MONGODB_URI, SESSION_SECRET } from './util/secrets'
 
 const mongoUrl = MONGODB_URI
 mongoose
-  .connect(mongoUrl, {
+  .connect(mongoUrl as string, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
