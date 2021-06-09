@@ -1,55 +1,49 @@
 /* eslint-disable @typescript-eslint/member-delimiter-style */
 
-import mongoose, { Document, Schema } from 'mongoose'
+import { Document, Schema, model } from 'mongoose'
 
-export type ItemsInCart = {
-  name: string
-  quantity: number
-}
-
-export type AllUsers = Document & {
-  firstname: string
-  lastname: string
+export interface UserDocument extends Document {
+  firstName: string
+  lastName: string
   email: string
-  password: string | number
   age: number
-  itemsInCart: ItemsInCart[]
+  password: string
+  isAdmin: boolean
 }
 
-const userSchema = new mongoose.Schema({
-  firstname: {
-    type: String,
-    required: true,
-  },
-  lastname: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    index: true,
-  },
-  password: {
-    type: String,
-    required: true,
-    minlength: [4, 'Too few characters'],
-    maxlength: [12, 'Too many characters'],
-  },
-  age: {
-    type: Number,
-    min: [18, 'Too joung to have a profile in this site'],
-    required: true,
-  },
-  itemsInCart: [
-    {
-      name: {
-        type: Schema.Types.ObjectId,
-        ref: 'Garmet',
-      },
-      quantity: Number,
+const UserModel = new Schema(
+  {
+    firstName: {
+      type: String,
+      required: true,
     },
-  ],
-})
+    lastName: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    age: {
+      type: Number,
+    },
+    password: {
+      type: String,
+      required: true,
+      minlength: 6,
+      maxlenght: 8,
+    },
+    isAdmin: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+  },
+  {
+    timestamps: true,
+  }
+)
 
-export default mongoose.model<AllUsers>('User', userSchema)
+export default model<UserDocument>('userModel', UserModel)

@@ -1,22 +1,33 @@
 /* eslint-disable @typescript-eslint/member-delimiter-style */
-import mongoose, { Document } from 'mongoose'
+import { Document, Schema, model } from 'mongoose'
 
-export type AllGarmets = Document & {
+export interface ReviewDocument extends Document {
   name: string
-  genres: string
-  category: string
-  brand: string
-  size: string
-  season: string
-  garmetRef: number
+  rating: number
+  comment: string
 }
 
-const garmetSchema = new mongoose.Schema({
-  name: {
+export interface GarmetDocument extends Document {
+  title: string
+  description: string
+  category: string
+  countInStock: number
+  variant: {
+    price: number
+    color: string
+    size: string
+  }
+  image: string
+  generalRating: number
+  reviews: ReviewDocument[]
+}
+
+const GarmetModel = new Schema({
+  title: {
     type: String,
     required: true,
   },
-  genres: {
+  description: {
     type: String,
     required: true,
   },
@@ -24,20 +35,50 @@ const garmetSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  brand: {
-    type: String,
-    required: true,
-  },
-  size: {
-    type: String,
-    required: true,
-  },
-  season: String,
-  garmetRef: {
+  countInStock: {
     type: Number,
+    default: 0,
     required: true,
-    index: true,
   },
+  variant: {
+    price: {
+      type: Number,
+      required: true,
+    },
+    color: {
+      type: String,
+    },
+    size: {
+      type: String,
+    },
+  },
+  image: {
+    type: String,
+  },
+  generalRating: {
+    type: Number,
+    default: 0,
+    required: true,
+  },
+  reviews: [
+    {
+      name: {
+        type: String,
+        required: true,
+      },
+      comment: {
+        type: String,
+        required: true,
+      },
+      rating: {
+        type: Number,
+        default: 0,
+        min: 0,
+        max: 5,
+        required: true,
+      },
+    },
+  ],
 })
 
-export default mongoose.model<AllGarmets>('Garmets', garmetSchema)
+export default model<GarmetDocument>('garmetModel', GarmetModel)
