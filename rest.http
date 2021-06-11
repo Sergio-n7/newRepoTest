@@ -9,6 +9,28 @@ content-type: application/json
     "password": "hellowor",
     "isAdmin": false
 }
+###
+POST http://localhost:3000/api/v1/localhost:3000/api/v1/garmets HTTP/1.1
+content-type: application/json
+
+{
+   "title": "T-shirt summer",
+   "description": "Nice t-shirt with a print",
+   "category": "T-shirt",
+   "countInStock": 2,
+  "variant": {
+    "price": 10,
+    "color": "white",
+    "size": "M",
+  },
+  "image": "http:something",
+  "generalRating": 5,
+  "reviews": "ReviewDocument[]"
+}
+
+
+
+
 
 ###
 

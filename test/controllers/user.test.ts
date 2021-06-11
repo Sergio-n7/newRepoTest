@@ -14,6 +14,7 @@ const createUser = async (inputData?: Partial<UserDocument>) => {
     email: 'user3@gmail.com',
     age: 33,
     password: 'byeworld',
+    isAdmin: false,
   }
 
   if (inputData) {
@@ -46,9 +47,9 @@ describe('user controller', () => {
     const res = await createUser({
       firstName: 'user3',
       lastName: 'surname3',
-      // email: 'user3@gmail.com',
-      // age: 33,
-      // password: 'byeworld',
+      email: 'user3@gmail.com',
+      age: 33,
+      password: 'byeworld',
       isAdmin: false,
     })
 
@@ -96,6 +97,7 @@ describe('user controller', () => {
       firstName: 'user 2',
       lastName: 'user 2',
       email: 'user2@gmail.com',
+      age: 55,
       password: 'user2',
       isAdmin: true,
     })

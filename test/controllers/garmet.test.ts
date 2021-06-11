@@ -6,17 +6,19 @@ import { ReviewDocument } from '../../src/models/Garmets'
 import app from '../../src/app'
 import * as dbHelper from '../db-helper'
 
-interface GarmetDocumentTest extends Document {
+export interface GarmetDocumentTest extends Document {
   title: string
   description: string
   category: string
   countInStock: number
-  price: number
-  color: string
-  size: string
+  variant: {
+    price: number
+    color: string
+    size: string
+  }
+  image: string
   generalRating: number
   reviews: ReviewDocument[]
-  image?: string
 }
 
 const nonExistingGarmetId = '5e57b77b5744fa0b461c7906'
@@ -48,10 +50,13 @@ const createGarmet = async (
     description: 'this is a testin description',
     category: 'testing category',
     countInStock: 2,
-    price: 222,
-    color: 'red',
-    size: 'XL',
+    variant: {
+      price: 222,
+      color: 'red',
+      size: 'XL',
+    },
     generalRating: 2,
+    reviews: [],
   }
   if (inputData) {
     garmet = { ...inputData }
@@ -63,11 +68,11 @@ const createGarmet = async (
     .field('description', garmet.description as string)
     .field('category', garmet.category as string)
     .field('countInStock', (garmet.countInStock as number).toString())
-    .field('price', (garmet.price as number).toString())
-    .field('color', garmet.color as string)
-    .field('size', garmet.size as string)
+    .field('price', (garmet.variant.price as number).toString())
+    .field('color', garmet.variant.color as string)
+    .field('size', garmet.variant.size as string)
     .field('generalRating', (garmet.generalRating as number).toString())
-    .field('qty', (garmet.price as number).toString())
+    .field('reviews', (garmet.reviews as ReviewDocument[]).toString())
     .attach('image', '')
     .set('Authorization', `Bearer ${token}`)
 }
@@ -143,10 +148,13 @@ describe('garmet controller', () => {
       description: 'description of garmet 2',
       category: 'category 2',
       countInStock: 2,
-      price: 2,
-      color: 'white',
-      size: 'M',
+      variant: {
+        price: 2,
+        color: 'white',
+        size: 'M',
+      },
       generalRating: 0,
+      reviews: [],
     })
 
     expect(res2.status).toBe(200)
@@ -185,7 +193,9 @@ describe('garmet controller', () => {
       description: 'description of garmet 2',
       category: 'category 2',
       countInStock: 2,
-      price: 2,
+      variant: {
+        price: 2,
+      },
       generalRating: 0,
     }
 
