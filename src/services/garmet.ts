@@ -2,14 +2,17 @@
 import GarmetModel, { GarmetDocument, ReviewDocument } from '../models/Garmets'
 
 type InputData = {
-  title: string
+  name: string
   description: string
   category: string
-  countInStock: number
-  price: number
-  color: string
-  size: string
-  generalRating: number
+  stock: number
+  variant: {
+    price: number
+    color: string
+    size: string
+  }
+  totalRating: number
+  rewiews: ReviewDocument[]
 }
 
 type FindAll = () => Promise<GarmetDocument[]>
@@ -59,8 +62,8 @@ const updateGarmet: UpdateGarmet = async (
     if (!garmet) {
       throw new Error(`Garmet ${garmetId} not found.`)
     }
-    if (inputData.title) {
-      garmet.title = inputData.title
+    if (inputData.name) {
+      garmet.name = inputData.name
     }
     if (inputData.description) {
       garmet.description = inputData.description
@@ -68,17 +71,17 @@ const updateGarmet: UpdateGarmet = async (
     if (inputData.category) {
       garmet.category = inputData.category
     }
-    if (inputData.countInStock) {
-      garmet.countInStock = inputData.countInStock
+    if (inputData.stock) {
+      garmet.stock = inputData.stock
     }
-    if (inputData.price) {
-      garmet.variant.price = +inputData.price
+    if (inputData.variant.price) {
+      garmet.variant.price = +inputData.variant.price
     }
-    if (inputData.color) {
-      garmet.variant.color = inputData.color
+    if (inputData.variant.color) {
+      garmet.variant.color = inputData.variant.color
     }
-    if (inputData.size) {
-      garmet.variant.size = inputData.size
+    if (inputData.variant.size) {
+      garmet.variant.size = inputData.variant.size
     }
     return garmet.save()
   } catch (error) {
@@ -101,7 +104,7 @@ const createReview: CreateReview = async (
       rating: inputData.rating,
     }
     garmet.reviews.push(review as ReviewDocument)
-    garmet.generalRating =
+    garmet.totalRating =
       garmet.reviews.reduce((a, b) => b.rating + a, 0) / garmet.reviews.length
     return garmet.save()
   } catch (error) {

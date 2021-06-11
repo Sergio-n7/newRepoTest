@@ -22,9 +22,9 @@ const CartModel = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'userModel', required: true },
   items: [
     {
-      porduct: {
+      garmet: {
         type: Schema.Types.ObjectId,
-        ref: 'productModel',
+        ref: 'garmetModel',
         required: true,
       },
       qty: { type: Number, default: 1 },

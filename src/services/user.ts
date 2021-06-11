@@ -42,7 +42,6 @@ const findUser: FindUser = async (userId: string) => {
 
 // Create User service
 const createUser: CreateUser = async (user: UserDocument) => {
-  console.log(user)
   const newUser = await user.save()
   const finalUser = {
     id: newUser._id,
@@ -96,6 +95,9 @@ const updateUser: UpdateUser = async (
     }
     if (inputData.email) {
       user.email = inputData.email
+    }
+    if (inputData.age) {
+      user.age = inputData.age
     }
     if (inputData.password) {
       user.password = inputData.password

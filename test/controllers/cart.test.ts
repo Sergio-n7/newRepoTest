@@ -9,17 +9,17 @@ import { ReviewDocument } from '../../src/models/Garmets'
 //lets create the types first
 
 export interface GarmetDocumentTest extends Document {
-  title: string
+  name: string
   description: string
   category: string
-  countInStock: number
+  stock: number
   variant: {
     price: number
     color: string
     size: string
   }
   image: string
-  generalRating: number
+  totalRating: number
   reviews: ReviewDocument[]
 }
 
@@ -51,17 +51,17 @@ const createGarmet = async (
   inputData?: Partial<GarmetDocumentTest>
 ) => {
   let garmet: Partial<GarmetDocumentTest> = {
-    title: 'testingGarmet',
+    name: 'testingGarmet',
     description: 'this is a testin description',
     category: 'testing category',
-    countInStock: 2,
+    stock: 2,
     variant: {
       price: 222,
       color: 'red',
       size: 'XL',
     },
     image: '',
-    generalRating: 2,
+    totalRating: 2,
     reviews: [],
   }
   if (inputData) {
@@ -70,16 +70,19 @@ const createGarmet = async (
   return request(app)
     .post('/api/v1/garmets')
     .set('Content-Type', 'multipart/form-data')
-    .field('title', garmet.title as string)
+    .field('name', garmet.name as string)
     .field('description', garmet.description as string)
     .field('category', garmet.category as string)
-    .field('countInStock', (garmet.countInStock as number).toString())
+    .field('stock', (garmet.stock as number).toString())
     .field('price', (garmet.variant.price as number).toString())
     .field('color', garmet.variant.color as string)
     .field('size', garmet.variant.size as string)
-    .field('generalRating', (garmet.generalRating as number).toString())
+    .field('totalRating', (garmet.totalRating as number).toString())
     .field('reviews', (garmet.reviews as ReviewDocument[]).toString())
-    .attach('image', '')
+    .attach(
+      'image',
+      '/Users/sergiosalguero/Desktop/Integrify/GitHub-repositores/ft7-fullstack-assignment/src/images/Sergi-image-noBG.png'
+    )
     .set('Authorization', `Bearer ${token}`)
     .then((res) => res.body)
 }
@@ -111,8 +114,8 @@ describe('cart controller', () => {
     const user = await createUser()
     uid = user.id
     token = user.token
-    const resProd = await createGarmet(token)
-    id = resProd._id
+    const resGarm = await createGarmet(token)
+    id = resGarm._id
   })
 
   afterEach(async () => {

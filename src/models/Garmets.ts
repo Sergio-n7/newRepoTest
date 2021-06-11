@@ -3,27 +3,27 @@ import { Document, Schema, model } from 'mongoose'
 
 export interface ReviewDocument extends Document {
   name: string
-  rating: number
   comment: string
+  rating: number
 }
 
 export interface GarmetDocument extends Document {
-  title: string
+  name: string
   description: string
   category: string
-  countInStock: number
+  stock: number
   variant: {
     price: number
     color: string
     size: string
   }
   image: string
-  generalRating: number
+  totalRating: number
   reviews: ReviewDocument[]
 }
 
 const GarmetModel = new Schema({
-  title: {
+  name: {
     type: String,
     required: true,
   },
@@ -35,7 +35,7 @@ const GarmetModel = new Schema({
     type: String,
     required: true,
   },
-  countInStock: {
+  stock: {
     type: Number,
     default: 0,
     required: true,
@@ -55,7 +55,7 @@ const GarmetModel = new Schema({
   image: {
     type: String,
   },
-  generalRating: {
+  totalRating: {
     type: Number,
     default: 0,
     required: true,

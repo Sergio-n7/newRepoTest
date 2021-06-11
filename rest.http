@@ -2,10 +2,10 @@ POST http://localhost:3000/api/v1/users HTTP/1.1
 content-type: application/json
 
 {
-    "firstName": "Javier",
+    "firstName": "Maria",
     "lastName": "Giron",
-    "email": "adions@hola.com",
-    "age": 39,
+    "email": "hellohello@hola.com",
+    "age": 20,
     "password": "hellowor",
     "isAdmin": false
 }
@@ -14,17 +14,17 @@ POST http://localhost:3000/api/v1/localhost:3000/api/v1/garmets HTTP/1.1
 content-type: application/json
 
 {
-   "title": "T-shirt summer",
+   "name": "T-shirt summer",
    "description": "Nice t-shirt with a print",
    "category": "T-shirt",
-   "countInStock": 2,
+   "stock": 2,
   "variant": {
     "price": 10,
     "color": "white",
     "size": "M",
   },
   "image": "http:something",
-  "generalRating": 5,
+  "totalRating": 5,
   "reviews": "ReviewDocument[]"
 }
 
@@ -34,7 +34,7 @@ content-type: application/json
 
 ###
 
-GET http://localhost:3000/api/v1/garmets HTTP/1.1
+GET http://localhost:3000/api/v1/users/60c33e84b13b5829af016b36 HTTP/1.1
 content-type: application/application/json
 
 
@@ -45,5 +45,14 @@ content-type: application/application/json
 
 ###
 
-PUT http://localhost:3000/api/v1/garmets/id HTTP/1.1
+PUT http://localhost:3000/api/v1/users/60c372cfc6aeef34ff246ed1 HTTP/1.1
 content-type: application/application/json
+
+{
+    "firstName": "maria",
+    "lastName": "Giron",
+    "email": "tonta@hola.com",
+    "age": 40,
+    "password": "hellowor",
+    "isAdmin": false
+}
