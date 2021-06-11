@@ -1,70 +1,123 @@
-import Garmet, { AllGarmets } from '../models/Garmets'
+/* eslint-disable @typescript-eslint/member-delimiter-style */
+import GarmetModel, { GarmetDocument, ReviewDocument } from '../models/Garmets'
 
-function create(garmet: AllGarmets): Promise<AllGarmets> {
-  return garmet.save()
+type InputData = {
+  title: string
+  description: string
+  category: string
+  countInStock: number
+  price: number
+  color: string
+  size: string
+  generalRating: number
 }
 
-function findById(garmetId: string): Promise<AllGarmets> {
-  return Garmet.findById(garmetId)
-    .exec() // .exec() will return a true Promise
-    .then((garmet) => {
-      if (!garmet) {
-        throw new Error(`Garmet ${garmetId} not found`)
-      }
-      return garmet
-    })
-}
+type FindAll = () => Promise<GarmetDocument[]>
 
-function findAll(): Promise<AllGarmets[]> {
-  return Garmet.find().sort({ ref: 1, category: 1 }).exec() // Return a Promise
-}
+type FindGarmet = (garmetId: string) => Promise<GarmetDocument>
 
-function update(
+type CreateGarmet = (inputGarmet: GarmetDocument) => Promise<GarmetDocument>
+
+type UpdateGarmet = (
   garmetId: string,
-  update: Partial<AllGarmets>
-): Promise<AllGarmets> {
-  return Garmet.findById(garmetId)
-    .exec()
-    .then((garmet) => {
-      if (!garmet) {
-        throw new Error(`Movie ${garmetId} not found`)
-      }
+  inputData: InputData
+) => Promise<GarmetDocument>
 
-      if (update.name) {
-        garmet.name = update.name
-      }
-      if (update.category) {
-        garmet.category = update.category
-      }
-      if (update.size) {
-        garmet.size = update.size
-      }
-      if (update.season) {
-        garmet.season = update.season
-      }
-      if (update.garmetRef) {
-        garmet.garmetRef = update.garmetRef
-      }
-      if (update.brand) {
-        garmet.brand = update.brand
-      }
+type CreateReview = (
+  garmetId: string,
+  inputData: ReviewDocument
+) => Promise<GarmetDocument>
 
-      if (update.genres) {
-        garmet.genres = update.genres
-      }
+type DeleteGarmet = (garmetId: string) => Promise<GarmetDocument | null>
 
-      return garmet.save()
-    })
+const findAll: FindAll = () => {
+  return GarmetModel.find().exec()
 }
 
-function deleteGarmet(garmetId: string): Promise<AllGarmets | null> {
-  return Garmet.findByIdAndDelete(garmetId).exec()
+const findGarmet: FindGarmet = async (garmetId: string) => {
+  try {
+    const garmet = await GarmetModel.findById(garmetId).exec()
+    if (!garmet) {
+      throw new Error(`Garmet ${garmetId} not found.`)
+    }
+    return garmet
+  } catch (error) {
+    throw new Error(error.message)
+  }
+}
+
+const createGarmet: CreateGarmet = (inputGarmet: GarmetDocument) => {
+  return inputGarmet.save()
+}
+
+const updateGarmet: UpdateGarmet = async (
+  garmetId: string,
+  inputData: InputData
+) => {
+  try {
+    const garmet = await GarmetModel.findOne({ _id: garmetId }).exec()
+    if (!garmet) {
+      throw new Error(`Garmet ${garmetId} not found.`)
+    }
+    if (inputData.title) {
+      garmet.title = inputData.title
+    }
+    if (inputData.description) {
+      garmet.description = inputData.description
+    }
+    if (inputData.category) {
+      garmet.category = inputData.category
+    }
+    if (inputData.countInStock) {
+      garmet.countInStock = inputData.countInStock
+    }
+    if (inputData.price) {
+      garmet.variant.price = +inputData.price
+    }
+    if (inputData.color) {
+      garmet.variant.color = inputData.color
+    }
+    if (inputData.size) {
+      garmet.variant.size = inputData.size
+    }
+    return garmet.save()
+  } catch (error) {
+    throw new Error(error.message)
+  }
+}
+
+const createReview: CreateReview = async (
+  garmetId: string,
+  inputData: ReviewDocument
+) => {
+  try {
+    const garmet = await GarmetModel.findById(garmetId).exec()
+    if (!garmet) {
+      throw new Error(`Garmet ${garmetId} not found.`)
+    }
+    const review: Partial<ReviewDocument> = {
+      name: inputData.name,
+      comment: inputData.comment,
+      rating: inputData.rating,
+    }
+    garmet.reviews.push(review as ReviewDocument)
+    garmet.generalRating =
+      garmet.reviews.reduce((a, b) => b.rating + a, 0) / garmet.reviews.length
+    return garmet.save()
+  } catch (error) {
+    throw new Error(error.message)
+  }
+}
+
+const deleteGarmet: DeleteGarmet = (garmetId: string) => {
+  return GarmetModel.findByIdAndDelete(garmetId).exec()
 }
 
 export default {
-  create,
-  findById,
   findAll,
-  update,
+  findGarmet,
+  createGarmet,
+  updateGarmet,
+  createReview,
   deleteGarmet,
 }

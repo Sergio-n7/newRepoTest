@@ -83,7 +83,7 @@ export const findGarmetById = async (
   next: NextFunction
 ) => {
   try {
-    res.json(await garmetServices.findGarmetById(req.params.garmetId))
+    res.json(await garmetServices.findGarmet(req.params.garmetId))
   } catch (error) {
     next(new NotFoundError('Garmet not found', error))
   }
@@ -96,7 +96,7 @@ export const findAllGarmets = async (
   next: NextFunction
 ) => {
   try {
-    res.json(await garmetServices.findAllGarmets())
+    res.json(await garmetServices.findAll())
   } catch (error) {
     next(new NotFoundError('Garmets not found', error))
   }

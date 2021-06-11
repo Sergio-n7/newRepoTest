@@ -19,16 +19,17 @@ export const createUser = async (
   next: NextFunction
 ) => {
   try {
-    const { firstname, lastname, email, age, password, isAdmin } = req.body
-
+    const { firstName, lastName, email, age, password, isAdmin } = req.body
+    console.log(req.body, 'body from the controller')
     const user = new User({
-      firstname,
-      lastname,
+      firstName,
+      lastName,
       email,
       age,
       password: bcrypt.hashSync(password, 8),
       isAdmin,
     })
+    console.log(user, 'user from controller')
     await userServices.createUser(user)
     res.json(user)
   } catch (error) {
@@ -96,7 +97,7 @@ export const findUserById = async (
   next: NextFunction
 ) => {
   try {
-    res.json(await userServices.findUserById(req.params.userId))
+    res.json(await userServices.findUser(req.params.userId))
   } catch (error) {
     next(new NotFoundError('User not found', error))
   }
@@ -109,7 +110,7 @@ export const findAllUsers = async (
   next: NextFunction
 ) => {
   try {
-    res.json(await userServices.findAllUsers())
+    res.json(await userServices.findAll())
   } catch (error) {
     next(new NotFoundError('Users not found', error))
   }

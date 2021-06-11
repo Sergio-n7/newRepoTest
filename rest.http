@@ -1,14 +1,13 @@
-POST http://localhost:3000/api/v1/garmets HTTP/1.1
+POST http://localhost:3000/api/v1/users HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Cotton T-shirt",
-    "genres": "Male",
-    "category": "T-Shirt",
-    "brand": "Diesel",
-    "size": "M",
-    "season": "Summer",
-    "garmetRef": 1
+    "firstName": "Javier",
+    "lastName": "Giron",
+    "email": "adions@hola.com",
+    "age": 39,
+    "password": "hellowor",
+    "isAdmin": false
 }
 
 ###

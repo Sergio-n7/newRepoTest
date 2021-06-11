@@ -59,6 +59,7 @@
   },
   "devDependencies": {
     "@types/async": "^3.0.8",
+    "@types/bcrypt": "^5.0.0",
     "@types/bcrypt-nodejs": "^0.0.30",
     "@types/bluebird": "^3.5.29",
     "@types/body-parser": "^1.19.0",
