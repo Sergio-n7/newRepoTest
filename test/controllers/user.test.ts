@@ -53,7 +53,7 @@ describe('user controller', () => {
       isAdmin: false,
     })
 
-    expect(res.status).toBe(500)
+    expect(res.status).toBe(400)
   })
 
   it('should sign in the user and create a token', async () => {
