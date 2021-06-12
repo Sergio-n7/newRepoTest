@@ -19,10 +19,10 @@ export const createGarmet = async (
     const imagePath = req.file.path
 
     const garmet = new Garmet({
-      title: inputData.title,
+      name: inputData.name,
       description: inputData.description,
       category: inputData.category,
-      countInStock: +inputData.countInStock,
+      stock: +inputData.stock,
       variant: {
         ...inputData.variant,
         price: +inputData.price,
@@ -30,7 +30,7 @@ export const createGarmet = async (
         size: inputData.size,
       },
       image: imagePath,
-      generalRating: inputData.generalRating ? inputData.generalRating : 0,
+      totalRating: inputData.totalRating ? inputData.totalRating : 0,
       reviews: [],
     })
 
@@ -77,7 +77,7 @@ export const deleteGarmet = async (
 }
 
 // GET /garmets/:garmetId only one garmet controller
-export const findGarmetById = async (
+export const findGarmet = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -90,7 +90,7 @@ export const findGarmetById = async (
 }
 
 // GET /Garmets all garmets controller
-export const findAllGarmets = async (
+export const findAll = async (
   req: Request,
   res: Response,
   next: NextFunction

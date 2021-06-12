@@ -1,10 +1,10 @@
-// import multer (upload files)
+// import multer (images)
 import multer from 'multer'
 import { Request } from 'express'
 
 const storage = multer.diskStorage({
   destination: function (req: Request, file, callback) {
-    callback(null, 'src/uploads/')
+    callback(null, 'src/images/')
   },
   filename: function (req: Request, file, callback) {
     callback(null, new Date().toISOString() + file.originalname)

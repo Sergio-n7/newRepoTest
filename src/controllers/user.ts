@@ -91,7 +91,7 @@ export const updateUser = async (
 }
 
 // Get user by Id controller
-export const findUserById = async (
+export const findUser = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -104,7 +104,7 @@ export const findUserById = async (
 }
 
 // Get all users controller
-export const findAllUsers = async (
+export const findAll = async (
   req: Request,
   res: Response,
   next: NextFunction

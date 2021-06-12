@@ -7,17 +7,17 @@ import app from '../../src/app'
 import * as dbHelper from '../db-helper'
 
 export interface GarmetDocumentTest extends Document {
-  title: string
+  name: string
   description: string
   category: string
-  countInStock: number
+  stock: number
   variant: {
     price: number
     color: string
     size: string
   }
   image: string
-  generalRating: number
+  totalRating: number
   reviews: ReviewDocument[]
 }
 
@@ -46,16 +46,16 @@ const createGarmet = async (
   inputData?: Partial<GarmetDocumentTest>
 ) => {
   let garmet: Partial<GarmetDocumentTest> = {
-    title: 'testingGarmet',
+    name: 'testingGarmet',
     description: 'this is a testin description',
     category: 'testing category',
-    countInStock: 2,
+    stock: 2,
     variant: {
       price: 222,
       color: 'red',
       size: 'XL',
     },
-    generalRating: 2,
+    totalRating: 2,
     reviews: [],
   }
   if (inputData) {
@@ -64,16 +64,16 @@ const createGarmet = async (
   return request(app)
     .post('/api/v1/garmets')
     .set('Content-Type', 'multipart/form-data')
-    .field('title', garmet.title as string)
+    .field('title', garmet.name as string)
     .field('description', garmet.description as string)
     .field('category', garmet.category as string)
-    .field('countInStock', (garmet.countInStock as number).toString())
+    .field('countInStock', (garmet.stock as number).toString())
     .field('price', (garmet.variant.price as number).toString())
     .field('color', garmet.variant.color as string)
     .field('size', garmet.variant.size as string)
-    .field('generalRating', (garmet.generalRating as number).toString())
+    .field('totalRating', (garmet.totalRating as number).toString())
     .field('reviews', (garmet.reviews as ReviewDocument[]).toString())
-    .attach('image', '')
+    .attach('image', '/Users/sergiosalguero/Desktop/Integrify/GitHub-repositores/ft7-fullstack-assignment/src/images/Sergi-image-noBG.png')
     .set('Authorization', `Bearer ${token}`)
 }
 describe('garmet controller', () => {
@@ -117,7 +117,7 @@ describe('garmet controller', () => {
       .put(`/api/v1/garmets/review/${garmetId}`)
       .send(review)
     expect(res.status).toBe(200)
-    expect(res.body.generalRating).toBeGreaterThan(0)
+    expect(res.body.totalRating).toBeGreaterThan(0)
     expect(res.body.reviews.length).toEqual(1)
   })
 
@@ -128,8 +128,8 @@ describe('garmet controller', () => {
     const garmetId = res1.body._id
 
     const review = {
-      //   name: 'user 1',
-      //   comment: 'review user',
+       name: 'user 1',
+       comment: 'review user',
       rating: 10,
     }
 
@@ -144,16 +144,16 @@ describe('garmet controller', () => {
     expect(res1.status).toBe(200)
 
     const res2 = await createGarmet(token, {
-      title: 'testinGarmet 2',
+      name: 'testinGarmet 2',
       description: 'description of garmet 2',
       category: 'category 2',
-      countInStock: 2,
+      stock: 2,
       variant: {
         price: 2,
         color: 'white',
         size: 'M',
       },
-      generalRating: 0,
+      totalRating: 0,
       reviews: [],
     })
 
@@ -177,7 +177,7 @@ describe('garmet controller', () => {
 
   test('should not get back garmet with wrong id', async () => {
     const res = await request(app).get(
-      `/api/v1/products/${nonExistingGarmetId}`
+      `/api/v1/garmets/${nonExistingGarmetId}`
     )
     expect(res.status).toBe(404)
   })
@@ -189,14 +189,14 @@ describe('garmet controller', () => {
     const garmetId = res1.body._id
 
     const update = {
-      title: 'Garmet update',
+      name: 'Garmet update',
       description: 'description of garmet 2',
       category: 'category 2',
-      countInStock: 2,
+      stock: 2,
       variant: {
         price: 2,
       },
-      generalRating: 0,
+      totalRating: 0,
     }
 
     const res = await request(app)
@@ -205,8 +205,8 @@ describe('garmet controller', () => {
       .set('Authorization', `Bearer ${token}`)
 
     expect(res.status).toBe(200)
-    expect(res.body.title).toEqual('Garmet update')
-    expect(res.body.countInStock).toEqual(2)
+    expect(res.body.name).toEqual('Garmet update')
+    expect(res.body.stock).toEqual(2)
   })
 
   test('should delete an existing garmet', async () => {
