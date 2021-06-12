@@ -45,8 +45,8 @@ describe('user controller', () => {
 
   it('should not create a user with wrong data', async () => {
     const res = await createUser({
-      firstName: 'user3',
-      lastName: 'surname3',
+      //firstName: 'user3',
+      //lastName: 'surname3',
       email: 'user3@gmail.com',
       age: 33,
       password: 'byeworld',
@@ -82,6 +82,7 @@ describe('user controller', () => {
 
     const res = await request(app).post('/api/v1/users/signin').send(signInData)
     expect(res.status).toEqual(401)
+    console.log(res.body, 'console.log from res.signIn')
   })
 
   it('should get back all users', async () => {

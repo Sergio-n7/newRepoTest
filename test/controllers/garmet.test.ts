@@ -55,26 +55,31 @@ const createGarmet = async (
       color: 'red',
       size: 'XL',
     },
+    image:
+      '/Users/sergiosalguero/Desktop/Integrify/GitHub-repositores/ft7-fullstack-assignment/src/images/Sergi-image-noBG.png',
     totalRating: 2,
     reviews: [],
   }
   if (inputData) {
     garmet = { ...inputData }
   }
-  return request(app)
-    .post('/api/v1/garmets')
-    .set('Content-Type', 'multipart/form-data')
-    .field('title', garmet.name as string)
-    .field('description', garmet.description as string)
-    .field('category', garmet.category as string)
-    .field('countInStock', (garmet.stock as number).toString())
-    .field('price', (garmet.variant.price as number).toString())
-    .field('color', garmet.variant.color as string)
-    .field('size', garmet.variant.size as string)
-    .field('totalRating', (garmet.totalRating as number).toString())
-    .field('reviews', (garmet.reviews as ReviewDocument[]).toString())
-    .attach('image', '/Users/sergiosalguero/Desktop/Integrify/GitHub-repositores/ft7-fullstack-assignment/src/images/Sergi-image-noBG.png')
-    .set('Authorization', `Bearer ${token}`)
+  return (
+    request(app)
+      .post('/api/v1/garmets')
+      //.set('Content-Type', 'multipart/form-data')
+      //.field('title', garmet.name as string)
+      //.field('description', garmet.description as string)
+      //.field('category', garmet.category as string)
+      //.field('countInStock', (garmet.stock as number).toString())
+      //.field('price', (garmet.variant.price as number).toString())
+      //.field('color', garmet.variant.color as string)
+      //.field('size', garmet.variant.size as string)
+      //.field('totalRating', (garmet.totalRating as number).toString())
+      //.field('reviews', (garmet.reviews as ReviewDocument[]).toString())
+      //.attach('image', '/Users/sergiosalguero/Desktop/Integrify/GitHub-repositores/ft7-fullstack-assignment/src/images/Sergi-image-noBG.png')
+      //.set('Authorization', `Bearer ${token}`)
+      .send(garmet)
+  )
 }
 describe('garmet controller', () => {
   let token: string
@@ -128,8 +133,8 @@ describe('garmet controller', () => {
     const garmetId = res1.body._id
 
     const review = {
-       name: 'user 1',
-       comment: 'review user',
+      name: 'user 1',
+      comment: 'review user',
       rating: 10,
     }
 
@@ -176,9 +181,7 @@ describe('garmet controller', () => {
   })
 
   test('should not get back garmet with wrong id', async () => {
-    const res = await request(app).get(
-      `/api/v1/garmets/${nonExistingGarmetId}`
-    )
+    const res = await request(app).get(`/api/v1/garmets/${nonExistingGarmetId}`)
     expect(res.status).toBe(404)
   })
 
