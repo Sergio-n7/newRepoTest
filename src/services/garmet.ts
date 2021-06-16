@@ -11,6 +11,7 @@ type InputData = {
     color: string
     size: string
   }
+  image: string
   totalRating: number
   rewiews: ReviewDocument[]
 }

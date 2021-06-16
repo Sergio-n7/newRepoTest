@@ -83,6 +83,7 @@ const updateUser: UpdateUser = async (
 ) => {
   try {
     const user = await UserModel.findById(userId).exec()
+    console.log(inputData, 'data from the userService')
 
     if (!user) {
       throw new Error(`User ${userId} does not exist.`)

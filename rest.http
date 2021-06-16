@@ -2,17 +2,26 @@ POST http://localhost:3000/api/v1/users HTTP/1.1
 content-type: application/json
 
 {
-    "firstName": "Maria",
+    "firstName": "Sergio",
     "lastName": "Giron",
-    "email": "hellohello@hola.com",
-    "age": 20,
+    "email": "isadmin@hola.com",
+    "age": 30,
     "password": "hellowor",
-    "isAdmin": false
+    "isAdmin": true
 }
 ###
-POST http://localhost:3000/api/v1/localhost:3000/api/v1/garmets HTTP/1.1
+
+POST  http://localhost:3000/api/v1/users HTTP/1.1
 content-type: application/json
 
+{
+    "email": "whatever@hola.com",
+    "password": "hellowor"
+}
+###
+POST http://localhost:3000/api/v1/garmets HTTP/1.1
+content-type: application/json
+Authorization: 
 {
    "name": "T-shirt summer",
    "description": "Nice t-shirt with a print",
@@ -21,12 +30,13 @@ content-type: application/json
   "variant": {
     "price": 10,
     "color": "white",
-    "size": "M",
+    "size": "M"
   },
   "image": "http:something",
   "totalRating": 5,
-  "reviews": "ReviewDocument[]"
+  "reviews": [{ "name": "hola", "comment": "good", "rating": 5 }]
 }
+
 
 
 
@@ -35,24 +45,24 @@ content-type: application/json
 ###
 
 GET http://localhost:3000/api/v1/users/60c372cfc6aeef34ff246ed1 HTTP/1.1
-content-type: application/application/json
+content-type: application/json
 
 
 ###
 
 DELETE http://localhost:3000/api/v1/garmets/60a52618a2e17367699063de HTTP/1.1
-content-type: application/application/json
+content-type: application/json
 
 ###
 
-PUT http://localhost:3000/api/v1/users/60c372cfc6aeef34ff246ed1 HTTP/1.1
-content-type: application/application/json
+PUT http://localhost:3000/api/v1/users/60c88fd1b17efa6026c2be3f HTTP/1.1
+content-type: application/json
 
 {
-    "firstName": "maria",
+    "firstName": "Sonia",
     "lastName": "Giron",
-    "email": "tonta@hola.com",
+    "email": "whatever@hola.com",
     "age": 40,
     "password": "hellowor",
-    "isAdmin": false
+    "isAdmin": true
 }
