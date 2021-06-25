@@ -34,12 +34,11 @@ jobs:
         run: yarn lint
       - name: Build the project
         run: yarn build
-      #- name: Deploy project on Heroku
-      # uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
-      #with:
-      # heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-      #heroku_app_name: ${{secrets.HEROKU_APP_NAME}} #Must be unique in Heroku
-      #heroku_email: ${{secrets.HEROKU_USER_EMAIL}}
-      # - name: Run tests
-      #   run: yarn test
-      # hola
+      - name: Run tests
+        run: yarn test
+      - name: Deploy project on Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}} #Must be unique in Heroku
+          heroku_email: ${{secrets.HEROKU_USER_EMAIL}}
