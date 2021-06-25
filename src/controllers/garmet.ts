@@ -46,7 +46,7 @@ export const createGarmet = async (
   try {
     const inputData = req.body
 
-    const result = await cloudinary.uploader.upload(req.file.path)
+    const result = await cloudinary.uploader.upload(req.file?.path)
     const image = result.secure_url
 
     const garmet = new Garmet({

@@ -100,7 +100,7 @@ const deleteFromCart: DeleteFromCart = async (
   }
 }
 
-const deleteCart: DeleteCart = (userId: string) => {
+const deleteCart = (userId: string) => {
   return cartModel.deleteOne({ user: userId }).exec()
 }
 
