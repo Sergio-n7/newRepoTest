@@ -8,7 +8,36 @@ import {
   InternalServerError,
 } from '../helpers/apiError'
 
-// POST / Create garmets controller
+import cloudinary from '../configurations/cloudinary'
+
+//GET all Request
+export const findAll = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    res.json(await garmetServices.findAll())
+  } catch (error) {
+    next(new NotFoundError('Garmets not found', error))
+  }
+}
+
+//Get one Request
+export const findGarmet = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = req.params.garmetId
+    res.json(await garmetServices.findGarmet(id))
+  } catch (error) {
+    next(new NotFoundError('Garmet not found', error))
+  }
+}
+
+//POST Request
 export const createGarmet = async (
   req: Request,
   res: Response,
@@ -16,7 +45,9 @@ export const createGarmet = async (
 ) => {
   try {
     const inputData = req.body
-    const imagePath = req.file.path
+
+    const result = await cloudinary.uploader.upload(req.file.path)
+    const image = result.secure_url
 
     const garmet = new Garmet({
       name: inputData.name,
@@ -29,8 +60,8 @@ export const createGarmet = async (
         color: inputData.color,
         size: inputData.size,
       },
-      image: imagePath,
-      totalRating: inputData.totalRating ? inputData.totalRating : 0,
+      image: image,
+      generalRating: inputData.totalRating ? inputData.totalRating : 0,
       reviews: [],
     })
 
@@ -44,65 +75,7 @@ export const createGarmet = async (
   }
 }
 
-// PUT /Update garmets/:garmetId controller
-export const updateGarmet = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const id = req.params.garmetId
-    const inputData = req.body
-    res.json(await garmetServices.updateGarmet(id, inputData))
-  } catch (error) {
-    next(new NotFoundError('Garmet not found', error))
-  }
-}
-
-// DELETE /garmets/:garmetId controller
-export const deleteGarmet = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const id = req.params.garmetId
-    res
-      .status(204)
-      .json({ deleteGarmet: await garmetServices.deleteGarmet(id) })
-      .end()
-  } catch (error) {
-    next(new NotFoundError('Garmet not found', error))
-  }
-}
-
-// GET /garmets/:garmetId only one garmet controller
-export const findGarmet = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    res.json(await garmetServices.findGarmet(req.params.garmetId))
-  } catch (error) {
-    next(new NotFoundError('Garmet not found', error))
-  }
-}
-
-// GET /Garmets all garmets controller
-export const findAll = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    res.json(await garmetServices.findAll())
-  } catch (error) {
-    next(new NotFoundError('Garmets not found', error))
-  }
-}
-
-// POST / Create a review controller
+//PUT Request Review
 export const createReview = async (
   req: Request,
   res: Response,
@@ -118,5 +91,37 @@ export const createReview = async (
     } else {
       next(new NotFoundError('Garmet not found', error))
     }
+  }
+}
+
+//PUT request
+export const updateGarmet = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = req.params.garmetId
+    const inputData = req.body
+    res.json(await garmetServices.updateGarmet(id, inputData))
+  } catch (error) {
+    next(new NotFoundError('Garmet not found', error))
+  }
+}
+
+//DELETE Requesst
+export const deleteGarmet = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = req.params.garmetId
+    res
+      .status(204)
+      .json({ deletedGarmet: await garmetServices.deleteGarmet(id) })
+      .end()
+  } catch (error) {
+    next(new NotFoundError('Garmet not found', error))
   }
 }
