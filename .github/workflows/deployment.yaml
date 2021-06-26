@@ -1,7 +1,7 @@
 name: CI/CD
 on:
   push:
-    branches: [sergio-public]
+    branches: [master]
 jobs:
   deploy:
     runs-on: ubuntu-latest
