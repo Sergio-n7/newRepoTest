@@ -8,20 +8,19 @@ import {
   InternalServerError,
 } from '../helpers/apiError'
 
-// find one specific cart controller
-export const findCart = async (
+export const findOneCart = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const userId = req.params.userId
-    res.json(await cartServices.findCart(userId))
+    res.json(await cartServices.findOneCart(userId))
   } catch (error) {
     next(new NotFoundError('Cart not found', error))
   }
 }
-// Create a Cart controller
+
 export const createCart = async (
   req: Request,
   res: Response,
@@ -30,17 +29,18 @@ export const createCart = async (
   try {
     const { garmetId, qty } = req.body
     const userId = req.params.userId
+
     res.json(await cartServices.createCart(userId, garmetId, qty))
   } catch (error) {
     if (error.name === 'ValidationError') {
       next(new BadRequestError('Invalid Request', error))
     } else {
-      next(new InternalServerError('Internal server error', error))
+      next(new InternalServerError('Internal Server Error', error))
     }
   }
 }
 
-// Delete garmets from a user cart
+//DELETE Products Requesst
 export const deleteFromCart = async (
   req: Request,
   res: Response,
@@ -54,7 +54,7 @@ export const deleteFromCart = async (
   }
 }
 
-// Delete the whole cart controller
+//DELETE Requesst
 export const deleteCart = async (
   req: Request,
   res: Response,
@@ -67,6 +67,6 @@ export const deleteCart = async (
       .json({ deletedCart: await cartServices.deleteCart(userId) })
       .end()
   } catch (error) {
-    next(new NotFoundError('Cart not found', error))
+    next(new NotFoundError('Garmet not found', error))
   }
 }

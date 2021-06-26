@@ -1,6 +1,4 @@
 import { Request, Response, NextFunction } from 'express'
-
-// import the password-hashing bcript (secure password storage)
 import bcrypt from 'bcrypt'
 
 import User from '../models/User'
@@ -12,26 +10,50 @@ import {
   UnauthorizedError,
 } from '../helpers/apiError'
 
-// Post / create User controller
+//GET all Request
+export const findAllUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    res.json(await userServices.findAllUsers())
+  } catch (error) {
+    next(new NotFoundError('User not found', error))
+  }
+}
+
+//GET one Request
+export const findOneUSer = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id: string = req.params.userId
+    res.json(await userServices.findOneUser(id))
+  } catch (error) {
+    next(new NotFoundError('User not found', error))
+  }
+}
+
+//POST Request
 export const createUser = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { firstName, lastName, email, age, password, isAdmin } = req.body
-    console.log(req.body, 'body from the controller')
+    const { firstName, lastName, email, password, isAdmin } = req.body
     const user = new User({
       firstName,
       lastName,
       email,
-      age,
-      password: bcrypt.hashSync(password, 8),
+      password: bcrypt.hashSync(password, 10),
       isAdmin,
     })
-    console.log(user, 'user from controller')
-    await userServices.createUser(user)
-    res.json(user)
+
+    res.json(await userServices.createUser(user))
   } catch (error) {
     if (error.name === 'ValidationError') {
       next(new BadRequestError('Invalid Request', error))
@@ -41,24 +63,43 @@ export const createUser = async (
   }
 }
 
-// Post / create sing in User controller
-export const singInUser = async (
+//POST Sign in Request
+
+export const signInUser = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const { email, password } = req.body
-    res.json(await userServices.singInUser(email, password))
+    res.json(await userServices.signInUser(email, password))
   } catch (error) {
     if (error.name === 'ValidationError') {
-      next(new BadRequestError('User not valid', error))
+      next(new BadRequestError('Invalid Request', error))
     } else {
-      next(new UnauthorizedError('Invalid email or password!!', error))
+      next(new UnauthorizedError('Invalid email or password!', error))
     }
   }
 }
-// delete User controller
+
+//PUT Request
+export const updateUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const inputData = req.body
+    const id = req.params.userId
+    const password = bcrypt.hashSync(req.body.password, 10)
+
+    res.json(await userServices.updateUser(id, inputData, password))
+  } catch (error) {
+    next(new NotFoundError('User not found', error))
+  }
+}
+
+//DELETE Request
 export const deleteUser = async (
   req: Request,
   res: Response,
@@ -72,46 +113,5 @@ export const deleteUser = async (
       .end()
   } catch (error) {
     next(new NotFoundError('User not found', error))
-  }
-}
-
-// Put or update user controller
-export const updateUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const inputData = req.body
-    const id = req.params.userId
-    res.json(await userServices.updateUser(id, inputData))
-  } catch (error) {
-    next(new NotFoundError('User not found', error))
-  }
-}
-
-// Get user by Id controller
-export const findUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    res.json(await userServices.findUser(req.params.userId))
-  } catch (error) {
-    next(new NotFoundError('User not found', error))
-  }
-}
-
-// Get all users controller
-export const findAll = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    res.json(await userServices.findAll())
-  } catch (error) {
-    next(new NotFoundError('Users not found', error))
   }
 }

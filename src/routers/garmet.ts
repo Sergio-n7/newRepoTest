@@ -2,9 +2,9 @@ import express from 'express'
 
 import {
   createGarmet,
-  findGarmet,
+  findOneGarmet,
   deleteGarmet,
-  findAll,
+  findAllGarmets,
   updateGarmet,
   createReview,
 } from '../controllers/garmet'
@@ -16,11 +16,11 @@ import { uploadImage } from '../middlewares/multer.garmet'
 const router = express.Router()
 
 // Every path we define here will get /api/v1/garmets prefix
-router.get('/', findAll)
-router.get('/:garmetId', findGarmet)
-router.put('/:garmetId', isAuthenticated, isAdmin, updateGarmet)
-router.delete('/:garmetId', isAuthenticated, isAdmin, deleteGarmet)
+router.get('/', findAllGarmets)
+router.get('/:productId', findOneGarmet)
 router.post('/', isAuthenticated, isAdmin, uploadImage, createGarmet)
-router.put('/review/:garmetId', createReview)
+router.put('/review/:productId', createReview)
+router.put('/:productId', isAuthenticated, isAdmin, updateGarmet)
+router.delete('/:productId', isAuthenticated, isAdmin, deleteGarmet)
 
 export default router

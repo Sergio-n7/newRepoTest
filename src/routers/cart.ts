@@ -1,7 +1,7 @@
 import express from 'express'
 
 import {
-  findCart,
+  findOneCart,
   createCart,
   deleteFromCart,
   deleteCart,
@@ -10,7 +10,7 @@ import {
 const router = express.Router()
 
 // Every path we define here will get /api/v1/cart prefix
-router.get('/:userId', findCart)
+router.get('/:userId', findOneCart)
 router.post('/:userId', createCart)
 router.put('/:userId/:garmetId', deleteFromCart)
 router.delete('/:userId', deleteCart)

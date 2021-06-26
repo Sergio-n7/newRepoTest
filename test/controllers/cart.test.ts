@@ -4,7 +4,6 @@ import request from 'supertest'
 import { UserDocument } from '../../src/models/User'
 import app from '../../src/app'
 import * as dbHelper from '../db-helper'
-import { ReviewDocument } from '../../src/models/Garmets'
 
 //lets create the types first
 
@@ -13,14 +12,11 @@ export interface GarmetDocumentTest extends Document {
   description: string
   category: string
   stock: number
-  variant: {
-    price: number
-    color: string
-    size: string
-  }
-  image: string
+  price: number
+  color: string
+  size: string
   totalRating: number
-  reviews: ReviewDocument[]
+  qty: number
 }
 
 type InputData = {
@@ -55,14 +51,11 @@ const createGarmet = async (
     description: 'this is a testin description',
     category: 'testing category',
     stock: 2,
-    variant: {
-      price: 222,
-      color: 'red',
-      size: 'XL',
-    },
-    image: '',
+    price: 222,
+    color: 'red',
+    size: 'XL',
     totalRating: 2,
-    reviews: [],
+    qty: 2,
   }
   if (inputData) {
     garmet = { ...inputData }
@@ -74,15 +67,12 @@ const createGarmet = async (
     .field('description', garmet.description as string)
     .field('category', garmet.category as string)
     .field('stock', (garmet.stock as number).toString())
-    .field('price', (garmet.variant.price as number).toString())
-    .field('color', garmet.variant.color as string)
-    .field('size', garmet.variant.size as string)
+    .field('price', (garmet.price as number).toString())
+    .field('color', garmet.color as string)
+    .field('size', garmet.size as string)
     .field('totalRating', (garmet.totalRating as number).toString())
-    .field('reviews', (garmet.reviews as ReviewDocument[]).toString())
-    .attach(
-      'image',
-      '/Users/sergiosalguero/Desktop/Integrify/GitHub-repositores/ft7-fullstack-assignment/src/images/Sergi-image-noBG.png'
-    )
+    .field('qty', (garmet.price as number).toString())
+    .attach('image', '')
     .set('Authorization', `Bearer ${token}`)
     .then((res) => res.body)
 }

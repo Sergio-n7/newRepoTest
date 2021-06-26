@@ -1,22 +1,22 @@
 import express from 'express'
 
 import {
-  findUser,
+  findAllUsers,
+  findOneUSer,
   createUser,
-  deleteUser,
-  singInUser,
-  findAll,
+  signInUser,
   updateUser,
+  deleteUser,
 } from '../controllers/user'
 
 const router = express.Router()
 
 // Every path we define here will get /api/v1/users prefix
-router.get('/', findAll)
-router.get('/:userId', findUser)
-router.delete('/:userId', deleteUser)
-router.put('/:userId', updateUser)
+router.get('/', findAllUsers)
+router.get('/:userId', findOneUSer)
 router.post('/', createUser)
-router.post('/signin', singInUser)
+router.post('/signin', signInUser)
+router.put('/:userId', updateUser)
+router.delete('/:userId', deleteUser)
 
 export default router

@@ -68,7 +68,7 @@ describe('user controller', () => {
     const res = await request(app).post('/api/v1/users/signin').send(signInData)
     expect(res.status).toEqual(200)
     expect(res.body).toHaveProperty('token')
-    expect(res.body.firstName).toBe('user3')
+    expect(res.body.firstName).toBe('user x')
   })
 
   it('should not sign with the wrong data', async () => {

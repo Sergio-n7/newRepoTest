@@ -7,31 +7,30 @@ import {
   BadRequestError,
   InternalServerError,
 } from '../helpers/apiError'
-
 import cloudinary from '../configurations/cloudinary'
 
 //GET all Request
-export const findAll = async (
+export const findAllGarmets = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    res.json(await garmetServices.findAll())
+    res.json(await garmetServices.findAllGarmets())
   } catch (error) {
-    next(new NotFoundError('Garmets not found', error))
+    next(new NotFoundError('Garmet not found', error))
   }
 }
 
 //Get one Request
-export const findGarmet = async (
+export const findOneGarmet = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const id = req.params.garmetId
-    res.json(await garmetServices.findGarmet(id))
+    res.json(await garmetServices.findOneGarmet(id))
   } catch (error) {
     next(new NotFoundError('Garmet not found', error))
   }
@@ -61,7 +60,7 @@ export const createGarmet = async (
         size: inputData.size,
       },
       image: image,
-      generalRating: inputData.totalRating ? inputData.totalRating : 0,
+      totalRating: inputData.totalRating ? inputData.totalRating : 0,
       reviews: [],
     })
 
@@ -87,7 +86,7 @@ export const createReview = async (
     res.json(await garmetServices.createReview(id, inputData))
   } catch (error) {
     if (error.name === 'ValidationError') {
-      next(new BadRequestError('Please enter a valid request', error))
+      next(new BadRequestError('Invalid Request', error))
     } else {
       next(new NotFoundError('Garmet not found', error))
     }

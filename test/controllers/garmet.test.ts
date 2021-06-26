@@ -11,12 +11,10 @@ export interface GarmetDocumentTest extends Document {
   description: string
   category: string
   stock: number
-  variant: {
-    price: number
-    color: string
-    size: string
-  }
-  image: string
+  price: number
+  color: string
+  size: string
+  image?: string
   totalRating: number
   reviews: ReviewDocument[]
 }
@@ -50,36 +48,34 @@ const createGarmet = async (
     description: 'this is a testin description',
     category: 'testing category',
     stock: 2,
-    variant: {
-      price: 222,
-      color: 'red',
-      size: 'XL',
-    },
-    image:
-      '/Users/sergiosalguero/Desktop/Integrify/GitHub-repositores/ft7-fullstack-assignment/src/images/Sergi-image-noBG.png',
+    price: 222,
+    color: 'red',
+    size: 'XL',
     totalRating: 2,
     reviews: [],
   }
+
   if (inputData) {
     garmet = { ...inputData }
   }
-  return (
-    request(app)
-      .post('/api/v1/garmets')
-      //.set('Content-Type', 'multipart/form-data')
-      //.field('title', garmet.name as string)
-      //.field('description', garmet.description as string)
-      //.field('category', garmet.category as string)
-      //.field('countInStock', (garmet.stock as number).toString())
-      //.field('price', (garmet.variant.price as number).toString())
-      //.field('color', garmet.variant.color as string)
-      //.field('size', garmet.variant.size as string)
-      //.field('totalRating', (garmet.totalRating as number).toString())
-      //.field('reviews', (garmet.reviews as ReviewDocument[]).toString())
-      //.attach('image', '/Users/sergiosalguero/Desktop/Integrify/GitHub-repositores/ft7-fullstack-assignment/src/images/Sergi-image-noBG.png')
-      //.set('Authorization', `Bearer ${token}`)
-      .send(garmet)
-  )
+
+  return request(app)
+    .post('/api/v1/garmets')
+    .set('Content-Type', 'multipart/form-data')
+    .field('title', garmet.name as string)
+    .field('description', garmet.description as string)
+    .field('category', garmet.category as string)
+    .field('countInStock', (garmet.stock as number).toString())
+    .field('price', (garmet.price as number).toString())
+    .field('color', garmet.color as string)
+    .field('size', garmet.size as string)
+    .field('totalRating', (garmet.totalRating as number).toString())
+    .field('reviews', (garmet.reviews as ReviewDocument[]).toString())
+    .attach(
+      'image',
+      '/Users/sergiosalguero/Desktop/Integrify/GitHub-repositores/ft7-fullstack-assignment/src/images/Sergi-image-noBG.png'
+    )
+    .set('Authorization', `Bearer ${token}`)
 }
 describe('garmet controller', () => {
   let token: string
@@ -133,8 +129,8 @@ describe('garmet controller', () => {
     const garmetId = res1.body._id
 
     const review = {
-      name: 'user 1',
-      comment: 'review user',
+      //name: 'user 1',
+      //comment: 'review user',
       rating: 10,
     }
 
@@ -153,13 +149,10 @@ describe('garmet controller', () => {
       description: 'description of garmet 2',
       category: 'category 2',
       stock: 2,
-      variant: {
-        price: 2,
-        color: 'white',
-        size: 'M',
-      },
+      price: 2,
+      color: 'white',
+      size: 'M',
       totalRating: 0,
-      reviews: [],
     })
 
     expect(res2.status).toBe(200)
