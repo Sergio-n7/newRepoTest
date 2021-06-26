@@ -29,7 +29,6 @@ const createUser = async (inputData?: Partial<UserDocument>) => {
     firstName: 'name',
     lastName: 'surname',
     email: 'helloworld@gmail.com',
-    age: 22,
     password: 'hellohello',
     isAdmin: true,
   }
